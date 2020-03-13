@@ -1,0 +1,32 @@
+{
+	"name": "covid-19-provider",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "jest",
+		"build": "webpack",
+		"buildupload": "webpack & powershell Compress-Archive ./build ./build/publish.zip -Force & aws lambda update-function-code --function-name covid-19-crawler --zip-file fileb://build/publish.zip",
+		"uploadpublish": "node setup/upload covid-19-crawler-code build/publish.zip"
+	},
+	"keywords": [
+		"covid-19",
+		"corona"
+	],
+	"author": "Gergo Bastya",
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/cli": "^7.8.4",
+		"@babel/core": "^7.8.7",
+		"@babel/preset-env": "^7.8.7",
+		"babel-jest": "^25.1.0",
+		"jest": "^25.1.0",
+		"jest-in-case": "^1.0.2",
+		"webpack-cli": "^3.3.11"
+	},
+	"dependencies": {
+		"aws-sdk": "2.638.0",
+		"neat-csv": "5.2.0",
+		"webpack": "^4.42.0"
+	}
+}
