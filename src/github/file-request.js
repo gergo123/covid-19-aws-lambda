@@ -1,15 +1,24 @@
 const http = require('https');
 const fs = require('fs');
 
+/** Downloads the csv data files into a temporary folder */
 export default (config = { basePath: '/tmp/' }) => {
 	const downloadFile = (url, fileName) => new Promise((resolve, reject) => {
 		const file = fs.createWriteStream(`${config.basePath}${fileName}.csv`);
 
-		http.get(url, function (response) {
-			response.pipe(file);
-			resolve();
-		}).on('error', function (err) { // Handle errors
-			fs.unlink(dest); // Delete the file async. (But we don't check the result)
+		http.get(url, response => {
+			var data = [];
+			response.on('data', function (chunk) {
+				data.push(chunk);
+			}).on('end', function () {
+				//at this point data is an array of Buffers
+				//so Buffer.concat() can make us a new Buffer
+				//of all of them together
+				var buffer = Buffer.concat(data);
+				file.write(buffer.toString())
+				resolve();
+			});
+		}).on('error', err => { // Handle errors
 			reject(err);
 		});
 	});

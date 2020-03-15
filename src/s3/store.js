@@ -8,24 +8,27 @@ const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
 //const s3 = new require('aws-sdk/clients/s3');
 
 const storage = (function () {
-  const save = (data, key) => {
-    var uploadParams = { Bucket: 'covid-19-data', Key: key, Body: JSON.stringify(data) };
-    return new Promise((resolve, reject) => {
-      s3.upload(uploadParams, function (err, data) {
-        if (err) {
-          console.log("Error", err);
-          reject();
-        } if (data) {
-          resolve();
-          console.log("Upload Success", data.Location);
-        }
-      });
-    });
-  };
+	/**
+	 * Uploads a file to S3 storage.
+	 * @param {*} data Data to be stored in string format
+	 * @param {*} key File identifier
+	 */
+	const save = (data, key) => {
+		var uploadParams = {
+			Bucket: 'covid-19-data',
+			Key: key,
+			Body: JSON.stringify(data),
+			ACL: 'public-read'
+		};
+		return new Promise((resolve, reject) => {
+			s3.putObject(uploadParams)
+				.promise().then(resolve).catch(reject);
+		});
+	};
 
-  return {
-    save
-  };
+	return {
+		save
+	};
 })();
 
 export default storage;

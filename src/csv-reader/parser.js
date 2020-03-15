@@ -13,22 +13,21 @@ const service = (function () {
 	const parse = (type) => {
 		let fileName = type;
 		return new Promise((resolve, rejects) => {
-			(async () => {
-				fs.readFile(`${config.basePath}${fileName}.csv`, async (err, data) => {
-					if (err) {
-						rejects(err);
-						return;
-					}
-					let res = await neatCsv(data);
-					resolve({
-						res,
-						type
-					});
-				})
-			})();
+			fs.readFile(`${config.basePath}${fileName}.csv`, async (err, data) => {
+				if (err) {
+					rejects(err);
+					return;
+				}
+				let res = await neatCsv(data);
+				resolve({
+					res,
+					type
+				});
+			});
 		});
 	};
 
+	/** Parses a previously downloaded csv file for further processing. */
 	const getTimeData = (cfg = { basePath: '/tmp/' }) => {
 		if (cfg) {
 			config = cfg;

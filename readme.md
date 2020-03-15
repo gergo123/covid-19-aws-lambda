@@ -25,3 +25,19 @@ Enable the online debugging using by adding the thundra_agent_lambda_debugger_au
 ### Updating lambda function
 https://docs.aws.amazon.com/lambda/latest/dg/nodejs-package.html
 https://covid-19-crawler-code.s3.eu-west-3.amazonaws.com/publish.zip
+
+### Bucket policy
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::BUCKET_NAME/*"
+        }
+    ]
+}

@@ -1,6 +1,6 @@
 import parser from '../src/csv-reader/parser';
 
-test('parser parse data', (done) => {
+test('csv reader getTimeData', (done) => {
 	parser.getTimeData({ basePath: 'data/' }).then((data) => {
 		console.log(Object.keys(data));
 
